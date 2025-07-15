@@ -16,5 +16,5 @@ spec:
   - kind: ConfigMap
     name: wordpress-configmap-mysql
   - kind: ConfigMap
-    name: wordpress-configmap-deployement
+    name: wordpress-configmap-deployment
 
