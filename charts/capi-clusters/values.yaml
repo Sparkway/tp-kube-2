@@ -1,0 +1,36 @@
+clusters:
+ - name: monitoring
+   app: monitoring
+   kubernetes:
+     version: "v1.33.0"
+   replicas:
+     cp: 1
+     worker: 3
+   network:
+     podCidr: "10.0.0.0/16"
+     svcDomain: "cluster.local"
+     svcCidr: "10.10.0.0/16"
+
+ - name: wordpress
+   app: wordpress
+   kubernetes:
+     version: "v1.33.0"
+   replicas:
+     cp: 1
+     worker: 3
+   network:
+     podCidr: "10.100.0.0/16"
+     svcDomain: "cluster.local"
+     svcCidr: "10.110.0.0/16"
+
+ - name: nginx
+   app: nginx
+   kubernetes:
+     version: "v1.33.0"
+   replicas:
+     cp: 1
+     worker: 3
+   network:
+     podCidr: "10.200.0.0/16"
+     svcDomain: "cluster.local"
+     svcCidr: "10.210.0.0/16"

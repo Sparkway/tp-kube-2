@@ -1,0 +1,73 @@
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: grafana
+spec:
+  clusterSelector:
+    matchLabels:
+      monitoring: enabled
+  repoURL: https://grafana.github.io/helm-charts
+  chartName: grafana
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
+  valuesTemplate: |
+    plugins:
+      - victoriametrics-logs-datasource
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: victoriametrics
+            type: prometheus
+            orgId: 1
+            url: http://vmsingle-victoria-metrics-single-server.victoriametrics.svc.cluster.local:8428
+            access: proxy
+            isDefault: true
+            updateIntervalSeconds: 10
+            editable: true
+
+          - name: victorialogs
+            type: victoriametrics-logs-datasource
+            orgId: 1
+            url: http://vmlogs-victoria-logs-single-server.victorialogs.svc.cluster.local:9428
+            access: proxy
+            isDefault: false
+            updateIntervalSeconds: 10
+            editable: true
+
+    dashboardProviders:
+     dashboardproviders.yaml:
+       apiVersion: 1
+       providers:
+       - name: 'default'
+         orgId: 1
+         folder: ''
+         type: file
+         disableDeletion: true
+         editable: true
+         options:
+           path: /var/lib/grafana/dashboards/default
+
+    dashboards:
+      default:
+        victoriametrics:
+          gnetId: 10229
+          revision: 22
+          datasource: victoriametrics
+        kubernetes:
+          gnetId: 14205
+          revision: 1
+          datasource: victoriametrics
+        victorialogs:
+          gnetId: 22084
+          revision: 5
+          datasources: victoriametrics
+        victorialogs_explorer:
+          gnetId: 22759
+          revision: 6
+          datasource: victoriametrics

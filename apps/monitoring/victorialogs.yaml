@@ -1,0 +1,19 @@
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: victorialogs
+spec:
+  clusterSelector:
+    matchLabels:
+      monitoring: enabled
+  repoURL: https://victoriametrics.github.io/helm-charts
+  chartName: victoria-logs-single
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
+  valuesTemplate: |
+    vector:
+      enabled: true

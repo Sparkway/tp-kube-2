@@ -1,0 +1,47 @@
+{{- /* Boucle sur chaque objet cluster défini dans values.yaml */}}
+{{- range .Values.clusters }}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  {{- /* Le nom vient de l'objet courant dans la boucle */}}
+  name: {{ .name }}
+  namespace: default
+  labels:
+    calico: enabled
+    {{ .app }}: enabled
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - {{ .network.podCidr }}
+    serviceDomain: {{ .network.svcDomain }}
+    services:
+      cidrBlocks:
+      - {{ .network.svcCidr }}
+  topology:
+    class: quick-start
+    classNamespace: default
+    controlPlane:
+      metadata: {}
+      replicas: {{ .replicas.cp }}
+    variables:
+    - name: imageRepository
+      value: ""
+    - name: etcdImageTag
+      value: ""
+    - name: coreDNSImageTag
+      value: ""
+    - name: podSecurityStandard
+      value:
+        audit: restricted
+        enabled: true
+        enforce: baseline
+        warn: restricted
+    version: {{ .kubernetes.version }}
+    workers:
+      machineDeployments:
+      - class: default-worker
+        name: md-0
+        replicas: {{ .replicas.worker }}
+{{- end }}
