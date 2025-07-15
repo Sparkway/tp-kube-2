@@ -1,0 +1,14 @@
+---
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: monitoring
+  namespace: default
+spec:
+  clusterSelector:
+    matchLabels:
+      monitoring: enabled 
+  resources:
+  - kind: ConfigMap
+    name: local-path-configmap
+

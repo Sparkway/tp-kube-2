@@ -7,8 +7,10 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      nginx: enabled 
+      wordpress: enabled 
   resources:
+  - kind: ConfigMap
+    name: local-path-configmap
   - kind: ConfigMap
     name: wordpress-configmap-namespace
   - kind: ConfigMap
