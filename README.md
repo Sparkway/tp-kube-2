@@ -1,4 +1,4 @@
-# Automatisation de déploiement de clusters avec CAPI, FluxCD et SOPS
+# Automatisation de déploiement de clusters avec CAPI
 
 ## Prérequis
 
@@ -32,7 +32,7 @@ CLUSTER_TOPOLOGY=true clusterctl init --infrastructure docker --addon helm
 
 Déployer les CluserResourceSet et Helm Proxies :
 ```bash
-kubectl apply -f apps/*
+kubectl apply --recursive -f apps/*
 ```
 
 Déployer les clusters :
