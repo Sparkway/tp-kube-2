@@ -2,7 +2,7 @@
 apiVersion: addons.cluster.x-k8s.io/v1beta1
 kind: ClusterResourceSet
 metadata:
-  name: nginx
+  name: wordpress
   namespace: default
 spec:
   clusterSelector:
@@ -10,7 +10,9 @@ spec:
       nginx: enabled 
   resources:
   - kind: ConfigMap
-    name: nginx-configmap-namespace
+    name: wordpress-configmap-namespace
   - kind: ConfigMap
-    name: nginx-configmap-deployment
+    name: wordpress-configmap-mysql
+  - kind: ConfigMap
+    name: wordpress-configmap-deployement
 

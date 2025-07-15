@@ -4,8 +4,8 @@ data:
     apiVersion: v1
     kind: Namespace
     metadata:
-      name: nginx
+      name: wordpress
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: nginx-configmap-namespace
+  name: wordpress-configmap-namespace
